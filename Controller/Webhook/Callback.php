@@ -36,7 +36,9 @@ class Callback extends \Magento\Framework\App\Action\Action
         'payment_refunded' => Transaction::TYPE_REFUND,
         'payment_voided' => Transaction::TYPE_VOID,
         'payment_pending' => 'payment_pending',
-        'payment_declined' => 'payment_declined'
+        'payment_declined' => 'payment_declined',
+        'payment_expired' => 'payment_expired',
+        'payment_canceled' => 'payment_canceled',
     ];
 
     /**

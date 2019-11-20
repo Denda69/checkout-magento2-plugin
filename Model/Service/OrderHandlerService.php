@@ -87,6 +87,7 @@ class OrderHandlerService
      */
     public $paymentData;
 
+
     /**
      * OrderHandler constructor
      */
@@ -155,6 +156,27 @@ class OrderHandlerService
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('A payment method ID is required to place an order.')
             );
+        }
+    }
+
+    public function handleFailedOrder($order) {
+
+        //Get config for failed payments
+        $config = $this->config->getValue('order_action_failed_payment');
+
+        //Perform action on order based on config
+        switch ($config) {
+            case 'pending':
+                return;
+                break;
+            case 'delete':
+                $this->orderRepository->delete($order);
+                break;
+            case 'cancel':
+                $this->transactionHandler->setOrderStatus(
+                    'order_status_canceled',
+                    Order::STATE_CANCELED
+                );
         }
     }
 
