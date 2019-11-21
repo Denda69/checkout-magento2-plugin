@@ -17,6 +17,8 @@
 
 namespace CheckoutCom\Magento2\Model\Service;
 
+use const Grpc\STATUS_CANCELLED;
+
 /**
  * Class OrderHandlerService.
  */
@@ -159,24 +161,22 @@ class OrderHandlerService
         }
     }
 
-    public function handleFailedOrder($order) {
+    public function handleFailedOrder($orderId) {
 
         //Get config for failed payments
-        $config = $this->config->getValue('order_action_failed_payment');
+        $config = $this->config->getValue('order_action_failed_payment', 'checkoutcom_configuration');
 
         //Perform action on order based on config
         switch ($config) {
-            case 'pending':
-                return;
-                break;
             case 'delete':
-                $this->orderRepository->delete($order);
+                $this->orderRepository->delete($orderId);
                 break;
             case 'cancel':
                 $this->transactionHandler->setOrderStatus(
                     'order_status_canceled',
-                    Order::STATE_CANCELED
+                    Order::STATUS_CANCELED
                 );
+                break;
         }
     }
 
