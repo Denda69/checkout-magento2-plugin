@@ -606,7 +606,7 @@ class AlternativePaymentMethod extends \Magento\Payment\Model\Method\AbstractMet
      *
      * @param \Magento\Payment\Model\InfoInterface $payment The payment
      * @param float $amount
-     * 
+     *
      * @throws \Magento\Framework\Exception\LocalizedException  (description)
      *
      * @return self

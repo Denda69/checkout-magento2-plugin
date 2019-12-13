@@ -54,7 +54,7 @@ class PaymentAfterCapture
      */
     public function afterCapture(\Magento\Payment\Model\Method\AbstractMethod $method, $amount)
     {
-        if ($this->backendAuthSession->isLoggedIn()) { 
+        if ($this->backendAuthSession->isLoggedIn()) {
             // Get the payment
             $payment = $method->getInfoInstance();
 

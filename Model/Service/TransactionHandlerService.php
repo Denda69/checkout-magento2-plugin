@@ -162,7 +162,7 @@ class TransactionHandlerService
         // Get the list of transactions
         $transactions = $this->transactionSearch->create()
         ->addOrderIdFilter($orderId);
-        $transactions->getItems(); 
+        $transactions->getItems();
 
         // Filter the transactions
         if ($transactionId && !empty($transactions)) {
@@ -190,14 +190,14 @@ class TransactionHandlerService
             $transactionId
         );
 
-        return isset($transaction[0]) ? $transaction[0] : false;  
+        return isset($transaction[0]) ? $transaction[0] : false;
     }
 
     /**
      * Create a transaction for an order.
      */
     public function buildTransaction($order, $webhook)
-    {        
+    {
         // Get the order payment
         $payment = $order->getPayment();
 
@@ -227,7 +227,7 @@ class TransactionHandlerService
             $this->setTransactionState($transaction)
         );
 
-        // Save 
+        // Save
         $transaction->save();
         $payment->save();
 
@@ -247,7 +247,7 @@ class TransactionHandlerService
         $parentAuth = $this->transactionRepository->getByTransactionType(
             Transaction::TYPE_AUTH,
             $order->getPayment()->getId()
-        );       
+        );
         if ($isVoid && $parentAuth) {
             return $parentAuth->getTxnId();
         }
@@ -257,7 +257,7 @@ class TransactionHandlerService
         $parentAuth = $this->transactionRepository->getByTransactionType(
             Transaction::TYPE_AUTH,
             $order->getPayment()->getId()
-        );       
+        );
         if ($isCapture && $parentAuth) {
             return $parentAuth->getTxnId();
         }
@@ -267,7 +267,7 @@ class TransactionHandlerService
         $parentCapture = $this->transactionRepository->getByTransactionType(
             Transaction::TYPE_CAPTURE,
             $order->getPayment()->getId()
-        );       
+        );
         if ($isRefund && $parentCapture) {
             return $parentCapture->getTxnId();
         }
@@ -306,7 +306,7 @@ class TransactionHandlerService
         $parentAuth = $this->transactionRepository->getByTransactionType(
             Transaction::TYPE_AUTH,
             $order->getPayment()->getId()
-        );    
+        );
         if ($isCapture && $parentAuth) {
             $parentAuth->close()->save();
             return 0;
@@ -321,7 +321,7 @@ class TransactionHandlerService
         if ($isRefund && $parentCapture) {
             $parentCapture->close()->save();
             return 1;
-        }  
+        }
     }
 
     /**
@@ -355,7 +355,7 @@ class TransactionHandlerService
             case Transaction::TYPE_REFUND:
                 $status = 'order_status_refunded';
                 break;
-        }   
+        }
 
         // Set the order status
         $order->setStatus($this->config->getValue($status));
@@ -395,7 +395,7 @@ class TransactionHandlerService
             case Transaction::TYPE_REFUND:
                 $comment = 'The refunded amount is %1.';
                 break;
-        }   
+        }
 
         // Add the transaction comment
         $payment->addTransactionCommentsToOrder(
@@ -463,7 +463,7 @@ class TransactionHandlerService
                 if ($condition1 && $condition2) {
                     $orderComment->delete();
                 }
-            } 
+            }
         }
     }
 
